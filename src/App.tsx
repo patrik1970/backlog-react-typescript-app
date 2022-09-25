@@ -1,11 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import IssueTable from './pages/Issue-table';
 
 function App() {
   return (
-    <IssueTable />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<IssueTable />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
