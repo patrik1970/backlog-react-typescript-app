@@ -9,7 +9,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<IssueTable />} />
-        <Route path="issue-card" element={<IssueCard />} />
+        <Route path="issue-card">
+          <Route index element={<IssueCard />} />
+          <Route path='issue-card/:id' element={<IssueCard />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

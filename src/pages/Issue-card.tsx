@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -14,28 +14,81 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Dayjs } from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const IssueCard: React.FC = () => {
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [id, setId] = useState('');
+    const [title, setTitle] = useState('');
+    const [issueType, setIssueType] = useState('');
+    const [priority, setPriority] = useState('');
+    const [description, setDescription] = useState('');
     const [createdDate, setCreatedDate] = useState<Dayjs | null>(null);
     const [completedDate, setCompletedDate] = useState<Dayjs | null>(null);
-    const navigate = useNavigate();
+
+    const [issueId, setIssueId] = useState(null);
+    
+
+    useEffect(() => {
+        setId(issueById.id);
+        setTitle(issueById.title);
+        setIssueType(issueById.issueType);
+        setPriority(issueById.priority);
+        setDescription(issueById.description);
+        setCreatedDate(issueById.created);
+        setCompletedDate(issueById.completed);
+    }, [data])
+
+    useEffect(() => {
+        const fetchIssueById = async () => {
+            const data = await fetch (
+                "https://localhost:7121/api/Issue/" + searchParams.get("id")
+            );
+            const response = await data.json();
+            setData(response);
+        };
+        fetchIssueById();
+    }, []);
+
+    const fetchedData = JSON.stringify(data);
+    const issueById = JSON.parse(fetchedData);
+
+    const saveChanges = () => {
+        const updateIssue = async () => {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({id: id, title: title, issueType: issueType, priority: priority, description: description, created: createdDate, completed: completedDate })
+            };
+            const response = await fetch('https://localhost:7121/api/Issue/' + id, requestOptions);
+            const data = await response.json();
+            setIssueId(data);
+        }
+        updateIssue();
+        navigate('/');
+    }
 
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-end" spacing={2}>
                     <TextField 
-                        id="outlined-basic" 
                         label="Title" 
                         style={{ width: "100%" }}
-                        variant="outlined" 
+                        value={title}
+                        variant="outlined"
+                        onChange={(e) => { setTitle(e.target.value) }}
                     />
                     <FormControl fullWidth>
                         <InputLabel>IssueType</InputLabel>
                         <Select
-                            label="IssueType"
                             style={{ width: "100%" }}
+                            label="IssueType"
+                            value={issueType}
+                            onChange={(e) => { setIssueType(e.target.value)}}
+                           
                         >
                             <MenuItem value='1'>Bug</MenuItem>
                             <MenuItem value='2'>Feature</MenuItem>
@@ -45,8 +98,10 @@ const IssueCard: React.FC = () => {
                     <FormControl fullWidth>
                         <InputLabel>Priority</InputLabel>
                         <Select
-                            label="Priority"
                             style={{ width: "100%" }}
+                            label="Priority"
+                            value={priority}
+                            onChange={(e) => { setPriority(e.target.value)}} 
                         >
                             <MenuItem value='1'>Low</MenuItem>
                             <MenuItem value='2'>Medium</MenuItem>
@@ -57,9 +112,11 @@ const IssueCard: React.FC = () => {
                 <br />
                 <Box>
                     <TextField 
-                        label="Description"
                         style={{ width: "100%" }}
-                        multiline 
+                        label="Description"
+                        multiline
+                        value={description}
+                        onChange={(e) => { setDescription(e.target.value)}}
                     />
                 </Box>
                 <br />
@@ -94,8 +151,9 @@ const IssueCard: React.FC = () => {
                     <Button 
                         variant="outlined"
                         style={{ width: "100%" }}
+                        onClick={saveChanges}
                     >
-                       Save
+                       Save Issue
                     </Button>
                     <Button 
                         variant="outlined"

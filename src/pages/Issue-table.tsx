@@ -74,7 +74,7 @@ const IssueTable: React.FC = (props) => {
               <StyledTableCell>
                 <ArrowForwardIosIcon
                   onClick={() => {
-                    navigate("issue-card");
+                    navigate("issue-card/?id=" + issue["id"]);
                   }}
                 ></ArrowForwardIosIcon>
               </StyledTableCell>
