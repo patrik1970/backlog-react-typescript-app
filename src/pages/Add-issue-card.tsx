@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -9,17 +8,16 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dayjs } from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Dayjs } from 'dayjs';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const IssueCard: React.FC = () => {
-    const [data, setData] = useState([]);
+const AddIssueCard: React.FC = () => {
+    const [issueId, setIssueId] = useState(null);
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
     const [id, setId] = useState('');
     const [title, setTitle] = useState('');
     const [issueType, setIssueType] = useState('');
@@ -28,54 +26,29 @@ const IssueCard: React.FC = () => {
     const [createdDate, setCreatedDate] = useState<Dayjs | null>(null);
     const [completedDate, setCompletedDate] = useState<Dayjs | null>(null);
 
-    const [issueId, setIssueId] = useState(null);
-    
-
     useEffect(() => {
-        setId(issueById.id);
-        setTitle(issueById.title);
-        setIssueType(issueById.issueType);
-        setPriority(issueById.priority);
-        setDescription(issueById.description);
-        setCreatedDate(issueById.created);
-        setCompletedDate(issueById.completed);
-    }, [data])
+        setId(id);
+        setTitle(title);
+        setIssueType(issueType);
+        setPriority(priority);
+        setDescription(description);
+        setCreatedDate(createdDate);
+        setCompletedDate(completedDate);
+    });
 
-    useEffect(() => {
-        const fetchIssueById = async () => {
-            const data = await fetch (
-                "https://localhost:7121/api/Issue/" + searchParams.get("id")
-            );
-            const response = await data.json();
-            setData(response);
-        };
-        fetchIssueById();
-    }, []);
-
-    const fetchedData = JSON.stringify(data);
-    const issueById = JSON.parse(fetchedData);
-
-    const saveChanges = () => {
-        const updateIssue = async () => {
+    const addIssueHandler = () => {
+        const addIssue = async () => {
             const requestOptions = {
-                method: 'PUT',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({id: id, title: title, issueType: issueType, priority: priority, description: description, created: createdDate, completed: completedDate })
+                body: JSON.stringify({id: 0, title: title, issueType: issueType, priority: priority, description: description, created: createdDate, completed: completedDate })
             };
             const response = await fetch('https://localhost:7121/api/Issue/' + id, requestOptions);
             const data = await response.json();
             setIssueId(data);
         }
-        updateIssue();
+        addIssue();
         navigate('/');
-    }
-
-    const deleteHandle = () => {
-        async function deleteIssue() {
-            await fetch('https://localhost:7121/api/Issue/' + id, { method: 'DELETE' });
-        }
-        deleteIssue()
-        navigate("/")
     }
 
     return (
@@ -159,16 +132,9 @@ const IssueCard: React.FC = () => {
                     <Button 
                         variant="outlined"
                         style={{ width: "100%" }}
-                        onClick={saveChanges}
+                        onClick={addIssueHandler}
                     >
-                       Save Issue
-                    </Button>
-                    <Button 
-                        variant="outlined"
-                        style={{ width: "100%" }}
-                        onClick={deleteHandle}
-                    >
-                        Delete Issue
+                       Add Issue
                     </Button>
                 </Stack> 
             </CardContent>
@@ -176,4 +142,4 @@ const IssueCard: React.FC = () => {
     )
 }
 
-export default IssueCard
+export default AddIssueCard
