@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Navigate, useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,6 +48,8 @@ const IssueTable: React.FC = (props) => {
   }, [])
 
   return (
+    <>
+    <Header />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -83,6 +86,7 @@ const IssueTable: React.FC = (props) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }
 

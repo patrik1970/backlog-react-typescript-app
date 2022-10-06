@@ -71,9 +71,9 @@ const AddIssueCard: React.FC = () => {
                             onChange={(e) => { setIssueType(e.target.value)}}
                            
                         >
-                            <MenuItem value='1'>Bug</MenuItem>
-                            <MenuItem value='2'>Feature</MenuItem>
-                            <MenuItem value='3'>Documentation</MenuItem>
+                            <MenuItem value={1}>Bug</MenuItem>
+                            <MenuItem value={2}>Feature</MenuItem>
+                            <MenuItem value={3}>Documentation</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
@@ -84,9 +84,9 @@ const AddIssueCard: React.FC = () => {
                             value={priority}
                             onChange={(e) => { setPriority(e.target.value)}} 
                         >
-                            <MenuItem value='1'>Low</MenuItem>
-                            <MenuItem value='2'>Medium</MenuItem>
-                            <MenuItem value='3'>High</MenuItem>
+                            <MenuItem value={1}>Low</MenuItem>
+                            <MenuItem value={2}>Medium</MenuItem>
+                            <MenuItem value={3}>High</MenuItem>
                         </Select>
                     </FormControl>
                 </Stack>
