@@ -2,9 +2,9 @@
 
 This is a simple CRUD project written in React with Typescript. To this project i have added Material UI.
 
-## Pre Install
+### Pre Install
 
-To make this to work you must first download or clone [https://github.com/patrik1970/slim-tracking-api](simple-tracking-api) and run it localy.
+To make this to work you must first download or clone [simple-tracking-api](https://github.com/patrik1970/slim-tracking-api) and run it localy.
 
 ### Install
 
