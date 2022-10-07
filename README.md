@@ -10,20 +10,20 @@ To make this to work you must first download or clone [simple-tracking-api](http
 
 Clone or download this project.
 
-npm install
+Run `npm install`
 
 ### Run
 
-npm start
+Run `npm start`
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Test
 
-npm test (For the moment there is no written tests :-( )
+Run `npm test` (For the moment there is no written tests :-( )
 
 ### Build
 
-npm run build
+Run `npm run build`
 
 Builds the app for production to the `build` folder.
