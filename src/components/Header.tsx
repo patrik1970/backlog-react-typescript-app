@@ -11,7 +11,7 @@ const Header: React.FC = () => {
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                 <div>
                     <Link to={'/'} style={{ textDecoration: "none", color: "black" }}>
-                        <Typography variant='h3' gutterBottom>Backlogg V1.0</Typography>
+                        <Typography variant='h3' gutterBottom>Backlog V1.0</Typography>
                     </Link>
                 </div>
                 <div style={{ textAlign: "center" }}>
